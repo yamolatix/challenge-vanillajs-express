@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-expressions */
-
 var supertest = require('supertest-as-promised')(require('../app'));
 var expect = require('chai').expect;
 var todos = require('../models/todos');
-
 
 describe('Todo routes', function() {
 
@@ -13,13 +10,12 @@ describe('Todo routes', function() {
 
   describe('`/users` URI', function() {
     xit('GET responde con un array vacío de entrada', function() {
-      // cuando hacemos un request a `/users` recibimos un arreglo vacio
-      return supertest // supertest nos permite hacer y testear requests HTTP
-        .get('/users') // hacemos un request HTTP: GET a '/users'
-        .expect(200) // el codigo de status del response
-        .expect('Content-Type', /json/) // podemos testear los headers
+           return supertest 
+        .get('/users') 
+        .expect(200)
+        .expect('Content-Type', /json/)
         .expect(function(res) {
-          expect(res.body).to.eql([]); // testeamos la respuesta con el body
+          expect(res.body).to.eql([]); 
         });
     });
 
@@ -71,8 +67,8 @@ describe('Todo routes', function() {
     xit('POST crea una nueva tarea para ese usuario y devuelve dicha tarea', function() {
       return supertest
         .post('/users/doge/tasks')
-        .send({ content: 'tarea de doge'}) // el body del request HTTP
-        .expect(201) // van a tener que asignar ese status ustedes mismos
+        .send({ content: 'tarea de doge'}) 
+        .expect(201)
         .expect('Content-Type', /json/)
         .expect(function(res) {
           expect(res.body).to.eql({
@@ -90,7 +86,7 @@ describe('Todo routes', function() {
     xit('POST respeta el estado pre establecido para la tarea', function() {
       return supertest
         .post('/users/toni/tasks')
-        .send({ content: 'traer milanesa tucumana', complete: true}) // el body del request
+        .send({ content: 'traer milanesa tucumana', complete: true})
         .expect(201)
         .expect('Content-Type', /json/)
         .expect(function(res) {
@@ -120,7 +116,7 @@ describe('Todo routes', function() {
           .expect(200)
           .expect('Content-Type', /json/)
           .expect(function(res) {
-            expect(res.body).to.have.length(1); // devuelve solo 1 tarea
+            expect(res.body).to.have.length(1);
             expect(res.body[0].content).to.equal('aprender que tiene req.query'); // y es la tarea completada
           });
       });
@@ -131,7 +127,7 @@ describe('Todo routes', function() {
           .expect(200)
           .expect('Content-Type', /json/)
           .expect(function(res) {
-            expect(res.body).to.have.length(1); // también trae solo 1
+            expect(res.body).to.have.length(1); 
             expect(res.body[0].content).to.equal('habilitar request para tareas especificas'); // y es la tarea activa
           });
       });
@@ -145,11 +141,11 @@ describe('Todo routes', function() {
         todos.add('santi', { content: 't2' });
 
         return supertest
-          .put('/users/santi/tasks/1') // indica con el indice a que tarea apunto
+          .put('/users/santi/tasks/1')
           .expect(200)
           .expect(function() {
             expect(todos.list('santi')[0].complete).to.be.false;
-            expect(todos.list('santi')[1].complete).to.be.true; // y se completa
+            expect(todos.list('santi')[1].complete).to.be.true;
             expect(todos.list('santi')[2].complete).to.be.false;
           });
       });

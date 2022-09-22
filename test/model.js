@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-expressions */
-
 var expect = require('chai').expect;
 
-// importo la lista de 'to do's'
 var Todos = require('../models/todos');
 describe('To do model', function() {
 
-  // cada uno de los test arranca con una nueva lista (todos.js)
   beforeEach(function() {
     Todos.reset();
   });
@@ -75,9 +71,9 @@ describe('To do model', function() {
       Todos.remove('guille', 5);
       // miro el estado actual
       expect(Todos.list('guille').length).to.equal(9);
-      expect(Todos.list('guille')[4].content).to.equal('tarea 4'); // antes del 5 todo esta igual
-      expect(Todos.list('guille')[5].content).to.equal('tarea 6'); // 5 quedo borrado
-      expect(Todos.list('guille')[6].content).to.equal('tarea 7'); // el resto se movió un lugar
+      expect(Todos.list('guille')[4].content).to.equal('tarea 4');
+      expect(Todos.list('guille')[5].content).to.equal('tarea 6');
+      expect(Todos.list('guille')[6].content).to.equal('tarea 7');
     });
   });
 });
