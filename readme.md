@@ -1,4 +1,4 @@
-# Checkpoint - Express
+# Checkpoint | Express - VanillaJS
 
 Primero que nada, vamos a usar este test para ver el estado actual del curso y como ayudarlo, no es para evaluar ni juzgar a nadie.
 
