@@ -2,35 +2,35 @@ var supertest = require('supertest-as-promised')(require('../app'));
 var expect = require('chai').expect;
 var todos = require('../models/todos');
 
-describe('Todo routes', function() {
+describe('Todo routes', function () {
 
-  beforeEach(function() {
+  beforeEach(function () {
     todos.reset();
   });
 
-  describe('`/users` URI', function() {
-    xit('GET responde con un array vacío de entrada', function() {
-           return supertest 
-        .get('/users') 
+  describe('`/users` URI', function () {
+    it('GET responde con un array vacío de entrada', function () {
+      return supertest
+        .get('/users')
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect(function(res) {
-          expect(res.body).to.eql([]); 
+        .expect(function (res) {
+          expect(res.body).to.eql([]);
         });
     });
 
-    xit('GET responde con una persona después de que se agrega una tarea', function() {
+    it('GET responde con una persona después de que se agrega una tarea', function () {
       todos.add('toni', { content: 'comprar mogul' });
       return supertest
         .get('/users')
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect(function(res) {
+        .expect(function (res) {
           expect(res.body).to.eql(['toni']);
         });
     });
 
-    xit('GET responde con todo el que tenga una tarea', function() {
+    it('GET responde con todo el que tenga una tarea', function () {
       todos.add('santi', { content: 'comprar medialunas' });
       todos.add('guille', { content: 'hacer un chivito' });
       todos.add('facu', { content: 'comprar caramelos' });
@@ -38,16 +38,16 @@ describe('Todo routes', function() {
         .get('/users')
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect(function(res) {
+        .expect(function (res) {
           expect(res.body).to.eql(['santi', 'guille', 'facu']);
         });
     });
 
   });
 
-  describe('`/users/:name/tasks` URI', function() {
+  describe('`/users/:name/tasks` URI', function () {
 
-    xit('GET devuelve una lista con las tareas de cierto usuario', function() {
+    it('GET devuelve una lista con las tareas de cierto usuario', function () {
       todos.add('pinky', { content: '1er tarea de pinky' });
       todos.add('alan', { content: '1er tarea de alan', complete: true });
       todos.add('alan', { content: '2da tarea de alan' });
@@ -55,7 +55,7 @@ describe('Todo routes', function() {
         .get('/users/alan/tasks')
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect(function(res) {
+        .expect(function (res) {
           expect(res.body).to.have.length(2);
           expect(res.body[0].content).to.equal('1er tarea de alan');
           expect(res.body[0].complete).to.be.true;
@@ -64,13 +64,13 @@ describe('Todo routes', function() {
         });
     });
 
-    xit('POST crea una nueva tarea para ese usuario y devuelve dicha tarea', function() {
+    xit('POST crea una nueva tarea para ese usuario y devuelve dicha tarea', function () {
       return supertest
         .post('/users/doge/tasks')
-        .send({ content: 'tarea de doge'}) 
+        .send({ content: 'tarea de doge' })
         .expect(201)
         .expect('Content-Type', /json/)
-        .expect(function(res) {
+        .expect(function (res) {
           expect(res.body).to.eql({
             content: 'tarea de doge',
             complete: false
@@ -83,13 +83,13 @@ describe('Todo routes', function() {
         });
     });
 
-    xit('POST respeta el estado pre establecido para la tarea', function() {
+    xit('POST respeta el estado pre establecido para la tarea', function () {
       return supertest
         .post('/users/toni/tasks')
-        .send({ content: 'traer milanesa tucumana', complete: true})
+        .send({ content: 'traer milanesa tucumana', complete: true })
         .expect(201)
         .expect('Content-Type', /json/)
-        .expect(function(res) {
+        .expect(function (res) {
           expect(res.body).to.eql({
             content: 'traer milanesa tucumana',
             complete: true
@@ -115,9 +115,9 @@ describe('Todo routes', function() {
           .get('/users/solano/tasks?status=complete')
           .expect(200)
           .expect('Content-Type', /json/)
-          .expect(function(res) {
+          .expect(function (res) {
             expect(res.body).to.have.length(1);
-            expect(res.body[0].content).to.equal('aprender que tiene req.query'); // y es la tarea completada
+            expect(res.body[0].content).to.equal('aprender que tiene req.query');
           });
       });
 
@@ -126,16 +126,16 @@ describe('Todo routes', function() {
           .get('/users/solano/tasks?status=active')
           .expect(200)
           .expect('Content-Type', /json/)
-          .expect(function(res) {
-            expect(res.body).to.have.length(1); 
+          .expect(function (res) {
+            expect(res.body).to.have.length(1);
             expect(res.body[0].content).to.equal('habilitar request para tareas especificas'); // y es la tarea activa
           });
       });
     });
 
-    describe('`/:index` URI', function() {
+    describe('`/:index` URI', function () {
 
-      xit('PUT asigna una tarea como completa', function() {
+      it('PUT asigna una tarea como completa', function () {
         todos.add('santi', { content: 't0' });
         todos.add('santi', { content: 't1' });
         todos.add('santi', { content: 't2' });
@@ -143,14 +143,14 @@ describe('Todo routes', function() {
         return supertest
           .put('/users/santi/tasks/1')
           .expect(200)
-          .expect(function() {
+          .expect(function () {
             expect(todos.list('santi')[0].complete).to.be.false;
             expect(todos.list('santi')[1].complete).to.be.true;
             expect(todos.list('santi')[2].complete).to.be.false;
           });
       });
 
-      xit('DELETE borra una tarea', function() {
+      it('DELETE borra una tarea', function () {
         todos.add('guille', { content: 'dar lecture' });
         todos.add('guille', { content: 'ayudar con el workshop' });
         todos.add('guille', { content: 'hacer el review' });
@@ -158,7 +158,7 @@ describe('Todo routes', function() {
         return supertest
           .delete('/users/guille/tasks/1')
           .expect(204)
-          .expect(function() {
+          .expect(function () {
             expect(todos.list('guille')).to.have.length(2);
             expect(todos.list('guille')[0].content).to.equal('dar lecture');
             expect(todos.list('guille')[1].content).to.equal('hacer el review');
@@ -166,7 +166,7 @@ describe('Todo routes', function() {
       });
     });
 
-    describe('manejo de errores', function() {
+    describe('manejo de errores', function () {
 
       xit('responde con status 404 si el usuaio no existe', function () {
         return supertest
@@ -186,4 +186,4 @@ describe('Todo routes', function() {
 
     });
   });
- });
+});
