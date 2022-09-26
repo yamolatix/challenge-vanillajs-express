@@ -18,7 +18,8 @@ function correctKey(req, res, next) {
 };
 
 users.get("/", (req, res) => {
-    res.json(todos.listPeople());
+    const list = todos.listPeople();
+    res.status(200).json(list);
 });
 
 users.get("/:name/tasks", userExists, (req, res) => {
